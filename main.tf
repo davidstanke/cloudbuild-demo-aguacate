@@ -12,7 +12,7 @@ resource "google_cloud_run_service" "whats-the-word" {
 
   metadata {
     labels = {
-      "foo" : "bar"
+      "foo" : "baz"
     }
   }
 
