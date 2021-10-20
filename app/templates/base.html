@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+  <title>COVID19 stats</title>
+
+</head>
+<body class="d-flex flex-column h-100">
+<main role="main" class="flex-shrink-0">
+   <div class="jumbotron">
+      <div class="container"> 
+        <h1><img height="37px" width="37px" src="static/logo-32x32.png" alt="U.S. Covid Stats"> US COVID-19 Stats</h1>
+        <div class="input-group mb-3 input-group-lg">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Zip Code</span>
+           </div>
+          <input class="form-control" name="zipcode" type="text" id="zipcode" value="{{zipcode}}" onfocus="this.value=''">
+          <div class="input-group-append">
+           <button class="btn btn-secondary" type="submit" onclick="UpdateURL()"><i class="fa fa-search"></i></button>
+           <button type="button" onclick="window.location.href = '{{url_for("home")}}'" class="btn btn-primary"><i class="fas fa-map-marker-alt"></i></i></button>
+
+          </div>
+        </div>
+        
+    </div>    
+  </div>
+  <div class="container">
+    {% block content %} {% endblock %}
+  </div>
+</main>
+<footer class="footer mt-auto py-2 bg-dark">
+  <div class="container">
+    <span class="text-light">Data & API via <a class="text-info" href="https://www.mulesoft.com/exchange/68ef9520-24e9-4cf2-b2f5-620025690913/covid19-data-tracking-api/">Mulesoft</a> | View project on <a class="text-info" href="https://github.com/vszal/us-covid-stats/">Github</a>
+  </span>
+  </div>
+</footer>
+
+  <script>
+  document.getElementById('zipcode').onkeydown = function(e){
+    if(e.keyCode == 13){
+      UpdateURL()
+    }
+  };
+  function UpdateURL(){
+    var domain = "{{url_for('home')}}"
+    var zc = document.getElementById("zipcode").value;
+    window.location.href = domain + zc;
+  }
+  var map = L.map('mapid').setView([{{lat}}, {{lng}}], 10);
+  // add the OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  }).addTo(map);
+
+  // show the scale bar on the lower left corner
+  L.control.scale().addTo(map);
+
+  </script>
+</body>
+</html>

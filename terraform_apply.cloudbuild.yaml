@@ -1,0 +1,34 @@
+# To build and deploy to Cloud Run, run from this directory:
+# $ gcloud builds submit . --config=cloudbuild.yaml
+steps:
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: docker build
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/us-covid-stats', '.']
+  dir: 'app'
+  waitFor: ['-']
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: docker push
+  args: ['push', 'gcr.io/$PROJECT_ID/us-covid-stats']
+  dir: 'app'
+  waitFor: ['docker build']
+
+- name: 'gcr.io/$PROJECT_ID/terraform'
+  id: terraform init
+  args: [
+    'init',
+    '-backend-config=bucket=$PROJECT_ID-tf-state',
+    '-backend-config=prefix=terraform/state'
+  ]
+  waitFor: ['-']
+
+- name: 'gcr.io/$PROJECT_ID/terraform'
+  id: terraform apply
+  args: [
+    'apply', '--auto-approve',
+    '-var=google_project_id=$PROJECT_ID',
+    '-var=google_region=us-east1'
+  ]
+  waitFor: ['docker push','terraform init']
+  

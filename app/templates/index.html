@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+    <div class="alert alert-success">Recent COVID19 data for <strong>{{county}}</strong></div>
+
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Total Positive Cases</th>
+        <th>Rate / 1000</th>
+        <th>New Positive Cases</th>
+        <th>Total Deaths</th>
+        <th>New Deaths</th>
+        <th>Rate / 1000</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for covid_data in covid_data %}
+      <tr>
+        <td>{{ covid_data[0] }}</td>
+        <td> {{ covid_data[1] }}</td> 
+        <td> {{ covid_data[5] }}</td> 
+        <td>{{ covid_data[2] }}</td>
+        <td> {{ covid_data[3] }}</td> 
+        <td>{{ covid_data[4] }}</td>
+        <td> {{ covid_data[6] }}</td> 
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+
+<div style="height: 600px" id="mapid"></div>
+{% endblock %}

@@ -1,0 +1,39 @@
+# To build and deploy to Cloud Run, run from this directory:
+# $ gcloud builds submit . --config=cloudbuild.yaml
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA', '.']
+  dir: 'app'
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA']
+  dir: 'app'
+# deploy to Cloud Run
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+  entrypoint: gcloud
+  args: [
+    'run', 'deploy', 'us-covid-stats',
+    '--image=gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA',
+    '--region', 'us-east1',
+    '--platform', 'managed',
+    '--allow-unauthenticated',
+    '--tag=commit-$SHORT_SHA',
+    '--no-traffic',
+    '--quiet'
+  ]
+
+# post preview link to PR
+- name: 'gcr.io/$PROJECT_ID/github'
+  entrypoint: 'bash'
+  args: 
+    - '-c'
+    - |
+      gh auth login --with-token <<< "$$GH_TOKEN"
+      gh pr comment $_PR_NUMBER --body="Preview this change at https://commit-$SHORT_SHA---us-covid-stats-syyjbfrpfq-ue.a.run.app"
+  secretEnv: ['GH_TOKEN']
+  
+availableSecrets:
+  secretManager:
+    - versionName: projects/62368363434/secrets/github_token/versions/latest
+      env: 'GH_TOKEN'
