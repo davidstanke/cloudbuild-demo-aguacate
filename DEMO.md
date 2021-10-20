@@ -1,7 +1,7 @@
 ### These are terse instructions for how to use this repo to demo Terraform-on-CloudBuild.
 (TODO: de-terse-ify these)
 
-1. Show the running application at https://whats-the-word.stanke.dev
+1. Show the running application at https://wtw.stanke.dev
 2. App change:
   * Make a branch called `app-change`.
   * Modify code in the `/app` folder.
