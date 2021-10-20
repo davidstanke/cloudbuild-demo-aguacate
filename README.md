@@ -44,3 +44,4 @@ _Prerequisites:_
 * The [GitHub CLI builder image](https://github.com/GoogleCloudPlatform/cloud-builders-community/tree/master/github)
   * Clone and build/push
   * Configure token secret as described in `github` builder README
+  * 
