@@ -17,23 +17,21 @@
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
 
-  <title>COVID19 stats</title>
+  <title>Words are fun</title>
 
 </head>
 <body class="d-flex flex-column h-100">
 <main role="main" class="flex-shrink-0">
    <div class="jumbotron">
       <div class="container"> 
-        <h1><img height="37px" width="37px" src="static/logo-32x32.png" alt="U.S. Covid Stats"> US COVID-19 Stats</h1>
+        <h1><img height="37px" width="37px" src="static/logo-32x32.png" alt="What's the word?"> What's the word?</h1>
         <div class="input-group mb-3 input-group-lg">
           <div class="input-group-prepend">
-            <span class="input-group-text">Zip Code</span>
+            <span class="input-group-text">word</span>
            </div>
-          <input class="form-control" name="zipcode" type="text" id="zipcode" value="{{zipcode}}" onfocus="this.value=''">
+          <input class="form-control" name="zipcode" type="text" id="word" value="{{word}}" onfocus="this.value=''">
           <div class="input-group-append">
            <button class="btn btn-secondary" type="submit" onclick="UpdateURL()"><i class="fa fa-search"></i></button>
-           <button type="button" onclick="window.location.href = '{{url_for("home")}}'" class="btn btn-primary"><i class="fas fa-map-marker-alt"></i></i></button>
-
           </div>
         </div>
         
@@ -45,32 +43,21 @@
 </main>
 <footer class="footer mt-auto py-2 bg-dark">
   <div class="container">
-    <span class="text-light">Data & API via <a class="text-info" href="https://www.mulesoft.com/exchange/68ef9520-24e9-4cf2-b2f5-620025690913/covid19-data-tracking-api/">Mulesoft</a> | View project on <a class="text-info" href="https://github.com/vszal/us-covid-stats/">Github</a>
+    <span class="text-light">Data & API via <a class="text-info" href="https://dictionaryapi.dev/">dictionaryapi.dev</a> | View project on <a class="text-info" href="https://github.com/davidstanke/cloud-build-aguacate/">Github</a>
   </span>
   </div>
 </footer>
 
   <script>
-  document.getElementById('zipcode').onkeydown = function(e){
+  document.getElementById('word').onkeydown = function(e){
     if(e.keyCode == 13){
       UpdateURL()
     }
   };
   function UpdateURL(){
     var domain = "{{url_for('home')}}"
-    var zc = document.getElementById("zipcode").value;
-    window.location.href = domain + zc;
+    window.location.href = domain + document.getElementById("word").value;
   }
-  var map = L.map('mapid').setView([{{lat}}, {{lng}}], 10);
-  // add the OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-  }).addTo(map);
-
-  // show the scale bar on the lower left corner
-  L.control.scale().addTo(map);
-
   </script>
 </body>
 </html>

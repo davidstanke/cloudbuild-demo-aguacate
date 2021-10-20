@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.15"
+  required_version = ">= 1.0"
   backend "gcs" {} # gcs backend config should be passed to the `init` command
   required_providers {
     google = {

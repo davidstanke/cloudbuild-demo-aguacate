@@ -4,13 +4,13 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   id: docker build
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/us-covid-stats', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/whats-the-word', '.']
   dir: 'app'
   waitFor: ['-']
 
 - name: 'gcr.io/cloud-builders/docker'
   id: docker push
-  args: ['push', 'gcr.io/$PROJECT_ID/us-covid-stats']
+  args: ['push', 'gcr.io/$PROJECT_ID/whats-the-word']
   dir: 'app'
   waitFor: ['docker build']
 

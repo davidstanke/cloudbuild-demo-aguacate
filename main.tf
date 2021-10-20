@@ -1,18 +1,18 @@
-resource "google_cloud_run_service" "us_covid_stats" {
-  name     = "us-covid-stats"
+resource "google_cloud_run_service" "whats-the-word" {
+  name     = "whats-the-word"
   location = var.google_region
 
   template {
     spec {
       containers {
-        image = "gcr.io/${var.google_project_id}/us-covid-stats"
+        image = "gcr.io/${var.google_project_id}/whats-the-word"
       }
     }
   }
 
   metadata {
     labels = {
-      "foo" : "yext"
+      "foo" : "bar"
     }
   }
 
@@ -27,9 +27,9 @@ resource "google_cloud_run_service" "us_covid_stats" {
 resource "google_cloud_run_service_iam_binding" "noauth" {
   location = var.google_region
   project  = var.google_project_id
-  service  = "us-covid-stats"
+  service  = "whats-the-word"
 
   role       = "roles/run.invoker"
   members    = ["allUsers"]
-  depends_on = [google_cloud_run_service.us_covid_stats]
+  depends_on = [google_cloud_run_service.whats-the-word]
 }

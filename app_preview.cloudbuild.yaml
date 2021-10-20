@@ -3,18 +3,18 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/whats-the-word:$SHORT_SHA', '.']
   dir: 'app'
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/whats-the-word:$SHORT_SHA']
   dir: 'app'
 # deploy to Cloud Run
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
   entrypoint: gcloud
   args: [
-    'run', 'deploy', 'us-covid-stats',
-    '--image=gcr.io/$PROJECT_ID/us-covid-stats:$SHORT_SHA',
+    'run', 'deploy', 'whats-the-word',
+    '--image=gcr.io/$PROJECT_ID/whats-the-word:$SHORT_SHA',
     '--region', 'us-east1',
     '--platform', 'managed',
     '--allow-unauthenticated',
@@ -30,7 +30,7 @@ steps:
     - '-c'
     - |
       gh auth login --with-token <<< "$$GH_TOKEN"
-      gh pr comment $_PR_NUMBER --body="Preview this change at https://commit-$SHORT_SHA---us-covid-stats-syyjbfrpfq-ue.a.run.app"
+      gh pr comment $_PR_NUMBER --body="Preview this change at https://commit-$SHORT_SHA---whats-the-word-TOKEN.a.run.app"
   secretEnv: ['GH_TOKEN']
   
 availableSecrets:
