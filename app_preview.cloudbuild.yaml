@@ -30,7 +30,7 @@ steps:
     - '-c'
     - |
       gh auth login --with-token <<< "$$GH_TOKEN"
-      gh pr comment $_PR_NUMBER --body="Preview this change at https://commit-$SHORT_SHA---whats-the-word-TOKEN.a.run.app"
+      gh pr comment $_PR_NUMBER --body="Preview this change at https://commit-$SHORT_SHA---whats-the-word-t63odkzjiq-ue.a.run.app"
   secretEnv: ['GH_TOKEN']
   
 availableSecrets:
