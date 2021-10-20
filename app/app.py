@@ -1,19 +1,20 @@
 import os
-import re
 import requests
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+app_header = os.getenv('APP_HEADER', "This is an application")
+
 @app.route('/')
 def home():
     # Provide a form to request a definition
-    return render_template('index.html', word_input='')
+    return render_template('index.html', app_header=app_header)
 
 @app.route('/<word>')
 def define(word):
     definition = get_definition(word)
-    return render_template('index.html', word_input=word, definition=definition)
+    return render_template('index.html', word_input=word, definition=definition, app_header=app_header)
 
 def get_definition(word):
     dictionary_api = requests.get(f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}')
