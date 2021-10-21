@@ -8,7 +8,7 @@ resource "google_cloud_run_service" "whats-the-word" {
         image = "gcr.io/${var.google_project_id}/whats-the-word"
         env {
             name = "APP_HEADER"
-            value = "What's the word?"
+            value = "I am eager for the weekend"
         }
       }
     }
